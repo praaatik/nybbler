@@ -1,66 +1,72 @@
 import {createContext, useEffect, useState} from "react"
 
-type Theme = "dark" | "light" | "system"
+type Mode = "dark" | "light" | "system"
 
 type ThemeProviderProps = {
     children: React.ReactNode
-    defaultTheme?: Theme
+    defaultMode?: Mode
     storageKey?: string
 }
 
 type ThemeProviderState = {
-    theme: Theme
-    setTheme: (theme: Theme) => void
+    mode: Mode
+    setMode: (mode: Mode) => void
 }
 
 const initialState: ThemeProviderState = {
-    theme: "system",
-    setTheme: () => null,
+    mode: "system",
+    setMode: () => null,
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 const ThemeProvider = ({
                            children,
-                           defaultTheme = "system",
+                           defaultMode = "system",
                            storageKey = "vite-ui-theme",
                            ...props
-                       }: ThemeProviderProps) => {
-    const [theme, setTheme] = useState<Theme>(
-        () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+                       }: ThemeProviderProps & {defaultMode? : Mode} ) => {
+    const [mode, setMode] = useState<Mode>(
+        // () => (localStorage.getItem(storageKey) as Mode) || defaultMode
+        () => (localStorage.getItem(`${storageKey}-mode`) as Mode) || defaultMode
     )
 
     useEffect(() => {
         const root = window.document.documentElement
 
         root.classList.remove("light", "dark")
+        root.removeAttribute("data-theme")
 
-        if (theme === "system") {
-            const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        if (mode === "system") {
+            const systemMode = window.matchMedia("(prefers-color-scheme: dark)")
                 .matches
                 ? "dark"
                 : "light"
 
-            root.classList.add(systemTheme)
+            root.classList.add(systemMode)
             return
         }
 
-        root.classList.add(theme)
-    }, [theme])
+        root.classList.add(mode)
+    }, [mode])
 
-    const value = {
-        theme,
-        setTheme: (theme: Theme) => {
-            localStorage.setItem(storageKey, theme)
-            setTheme(theme)
+    useEffect(() => {
+        localStorage.setItem(`${storageKey}-mode`, mode)
+    }, [mode, storageKey])
+
+    const contextValue = {
+        mode: mode,
+        setMode: (mode: Mode) => {
+            localStorage.setItem(`${storageKey}-mode`, mode)
+            setMode(mode)
         },
     }
 
     return (
-        <ThemeProviderContext.Provider {...props} value={value}>
+        <ThemeProviderContext.Provider {...props} value={contextValue}>
             {children}
         </ThemeProviderContext.Provider>
     )
 }
 
 
-export {ThemeProvider, ThemeProviderContext, type Theme};
+export {ThemeProvider, ThemeProviderContext, type Mode};

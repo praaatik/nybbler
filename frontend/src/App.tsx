@@ -3,7 +3,7 @@ import SnippetsContainer from "./components/SnippetsContainer.tsx";
 
 function App() {
     return (
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <ThemeProvider defaultMode="dark" storageKey="vite-ui-theme">
             <SnippetsContainer/>
         </ThemeProvider>
     )

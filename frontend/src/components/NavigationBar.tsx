@@ -24,10 +24,10 @@ interface NavigationBarProps {
 }
 
 const NavigationBar = ({user, onOpenSettings, onLogout}: NavigationBarProps) => {
-    const {theme, setTheme} = useTheme();
+    const {mode, setMode} = useTheme();
 
     return (
-        <nav className="bg-background border-b border-border px-4 py-3">
+        <nav className="bg-background border-b border-border md:px-20 lg:px-40 px-7 py-3">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
@@ -68,26 +68,25 @@ const NavigationBar = ({user, onOpenSettings, onLogout}: NavigationBarProps) => 
                                 Settings
                             </DropdownMenuItem>
 
-                            {/* Theme Switcher Submenu */}
                             <DropdownMenuSub>
                                 <DropdownMenuSubTrigger>
                                     <Monitor className="h-4 w-4 mr-2"/>
                                     Theme
                                 </DropdownMenuSubTrigger>
                                 <DropdownMenuSubContent>
-                                    <DropdownMenuItem onClick={() => setTheme("light")}
-                                                      className={theme === "light" ? "bg-accent" : ""}>
+                                    <DropdownMenuItem onClick={() => setMode("light")}
+                                                      className={mode === "light" ? "bg-accent" : ""}>
                                         <Sun className="h-4 w-4 mr-2"/>
                                         Light
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setTheme("dark")}
-                                                      className={theme === "dark" ? "bg-accent" : ""}>
+                                    <DropdownMenuItem onClick={() => setMode("dark")}
+                                                      className={mode === "dark" ? "bg-accent" : ""}>
                                         <Moon className="h-4 w-4 mr-2"/>
                                         Dark
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
-                                        onClick={() => setTheme("system")}
-                                        className={theme === "system" ? "bg-accent" : ""}
+                                        onClick={() => setMode("system")}
+                                        className={mode === "system" ? "bg-accent" : ""}
                                     >
                                         <Monitor className="h-4 w-4 mr-2"/>
                                         System
