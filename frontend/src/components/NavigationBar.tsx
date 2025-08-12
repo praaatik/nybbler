@@ -8,7 +8,7 @@ import {
 } from "./ui/dropdown-menu";
 import {Button} from "./ui/button.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "./ui/avatar.tsx";
-import {LogOut, Monitor, Moon, Settings, Sun, User} from "lucide-react";
+import {ArrowBigLeft, LogOut, Monitor, Moon, Settings, Sun, User} from "lucide-react";
 import {useTheme} from "../hooks/use-theme.tsx";
 
 export interface User {
@@ -24,7 +24,7 @@ interface NavigationBarProps {
 }
 
 const NavigationBar = ({user, onOpenSettings, onLogout}: NavigationBarProps) => {
-    const {mode, setMode} = useTheme();
+    const {mode, setMode, setTheme, theme} = useTheme();
 
     return (
         <nav className="bg-background border-b border-border md:px-20 lg:px-40 px-7 py-3">
@@ -72,6 +72,25 @@ const NavigationBar = ({user, onOpenSettings, onLogout}: NavigationBarProps) => 
                                 <DropdownMenuSubTrigger>
                                     <Monitor className="h-4 w-4 mr-2"/>
                                     Theme
+                                </DropdownMenuSubTrigger>
+                                <DropdownMenuSubContent>
+                                    <DropdownMenuItem onClick={() => setTheme("bubblegum")}
+                                                      className={mode === "light" ? "bg-accent" : ""}>
+                                        {theme === "bubblegum" && <ArrowBigLeft />}
+                                        Bubblegum
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setTheme("default")}
+                                                      className={mode === "dark" ? "bg-accent" : ""}>
+                                        {theme === "default" && <ArrowBigLeft />}
+                                        Default
+                                    </DropdownMenuItem>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuSub>
+
+                            <DropdownMenuSub>
+                                <DropdownMenuSubTrigger>
+                                    <Monitor className="h-4 w-4 mr-2"/>
+                                    Mode
                                 </DropdownMenuSubTrigger>
                                 <DropdownMenuSubContent>
                                     <DropdownMenuItem onClick={() => setMode("light")}

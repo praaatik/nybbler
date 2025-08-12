@@ -1,34 +1,43 @@
 import {createContext, useEffect, useState} from "react"
 
 type Mode = "dark" | "light" | "system"
+type Theme = "bubblegum" | "default"
 
 type ThemeProviderProps = {
     children: React.ReactNode
     defaultMode?: Mode
+    defaultTheme?: Theme
     storageKey?: string
 }
 
 type ThemeProviderState = {
     mode: Mode
+    theme: Theme
     setMode: (mode: Mode) => void
+    setTheme: (theme: Theme) => void
 }
 
 const initialState: ThemeProviderState = {
     mode: "system",
+    theme: "default",
     setMode: () => null,
+    setTheme: () => null,
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 const ThemeProvider = ({
                            children,
                            defaultMode = "system",
+                           defaultTheme = "default",
                            storageKey = "vite-ui-theme",
                            ...props
-                       }: ThemeProviderProps & {defaultMode? : Mode} ) => {
+                       }: ThemeProviderProps & { defaultMode?: Mode }) => {
     const [mode, setMode] = useState<Mode>(
-        // () => (localStorage.getItem(storageKey) as Mode) || defaultMode
         () => (localStorage.getItem(`${storageKey}-mode`) as Mode) || defaultMode
     )
+
+    const [theme, setTheme] = useState<Theme>(() => localStorage.getItem(`${storageKey}-theme`) as Theme) || defaultTheme
+
 
     useEffect(() => {
         const root = window.document.documentElement
@@ -43,21 +52,33 @@ const ThemeProvider = ({
                 : "light"
 
             root.classList.add(systemMode)
+            if (theme === "default") {
+                root.setAttribute("data-theme", "default")
+            } else {
+                root.setAttribute("data-theme", theme)
+            }
             return
         }
 
         root.classList.add(mode)
-    }, [mode])
+        root.setAttribute("data-theme", theme)
+    }, [mode, theme])
 
     useEffect(() => {
         localStorage.setItem(`${storageKey}-mode`, mode)
-    }, [mode, storageKey])
+        localStorage.setItem(`${storageKey}-theme`, theme)
+    }, [mode, storageKey, theme])
 
     const contextValue = {
         mode: mode,
+        theme: theme,
         setMode: (mode: Mode) => {
             localStorage.setItem(`${storageKey}-mode`, mode)
             setMode(mode)
+        },
+        setTheme: (theme: Theme) => {
+            localStorage.setItem(`${storageKey}-theme`, theme);
+            setTheme(theme);
         },
     }
 
