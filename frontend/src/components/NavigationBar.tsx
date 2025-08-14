@@ -3,13 +3,12 @@
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger,
+    DropdownMenuItem,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import {Button} from "./ui/button.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "./ui/avatar.tsx";
-import {ArrowBigLeft, LogOut, Monitor, Moon, Settings, Sun, User} from "lucide-react";
-import {useTheme} from "../hooks/use-theme.tsx";
+import {LogOut, Settings, User} from "lucide-react";
 
 export interface User {
     name: string
@@ -24,8 +23,6 @@ interface NavigationBarProps {
 }
 
 const NavigationBar = ({user, onOpenSettings, onLogout}: NavigationBarProps) => {
-    const {mode, setMode, setTheme, theme} = useTheme();
-
     return (
         <nav className="bg-background border-b border-border md:px-20 lg:px-40 px-7 py-3">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -67,53 +64,6 @@ const NavigationBar = ({user, onOpenSettings, onLogout}: NavigationBarProps) => 
                                 <Settings className="h-4 w-4 mr-2"/>
                                 Settings
                             </DropdownMenuItem>
-
-                            <DropdownMenuSub>
-                                <DropdownMenuSubTrigger>
-                                    <Monitor className="h-4 w-4 mr-2"/>
-                                    Theme
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuSubContent>
-                                    <DropdownMenuItem onClick={() => setTheme("bubblegum")}
-                                                      className={mode === "light" ? "bg-accent" : ""}>
-                                        {theme === "bubblegum" && <ArrowBigLeft />}
-                                        Bubblegum
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setTheme("default")}
-                                                      className={mode === "dark" ? "bg-accent" : ""}>
-                                        {theme === "default" && <ArrowBigLeft />}
-                                        Default
-                                    </DropdownMenuItem>
-                                </DropdownMenuSubContent>
-                            </DropdownMenuSub>
-
-                            <DropdownMenuSub>
-                                <DropdownMenuSubTrigger>
-                                    <Monitor className="h-4 w-4 mr-2"/>
-                                    Mode
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuSubContent>
-                                    <DropdownMenuItem onClick={() => setMode("light")}
-                                                      className={mode === "light" ? "bg-accent" : ""}>
-                                        <Sun className="h-4 w-4 mr-2"/>
-                                        Light
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => setMode("dark")}
-                                                      className={mode === "dark" ? "bg-accent" : ""}>
-                                        <Moon className="h-4 w-4 mr-2"/>
-                                        Dark
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem
-                                        onClick={() => setMode("system")}
-                                        className={mode === "system" ? "bg-accent" : ""}
-                                    >
-                                        <Monitor className="h-4 w-4 mr-2"/>
-                                        System
-                                    </DropdownMenuItem>
-                                </DropdownMenuSubContent>
-                            </DropdownMenuSub>
-
-                            <DropdownMenuSeparator/>
 
                             <DropdownMenuItem onClick={onLogout} className="text-destructive">
                                 <LogOut className="h-4 w-4 mr-2"/>

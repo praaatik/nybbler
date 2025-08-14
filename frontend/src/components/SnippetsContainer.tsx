@@ -1,6 +1,8 @@
 "use client"
 
 import NavigationBar from "./NavigationBar.tsx";
+import {useState} from "react";
+import SettingsModal from "./Settings.tsx";
 
 export interface User {
     name: string
@@ -15,14 +17,17 @@ const SnippetsContainer = () => {
         email: "django@catmail.com",
         avatar: "",
     }
+    const [settingsOpen, setSettingsOpen] = useState(false);
 
     return (
         <div>
             <div className="min-h-screen min-w-screen bg-background text-foreground transition-colors duration-200">
                 <NavigationBar user={user} onOpenSettings={() => {
+                    setSettingsOpen(true)
                 }} onLogout={() => {
                 }}/>
             </div>
+            <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
         </div>
     )
 }

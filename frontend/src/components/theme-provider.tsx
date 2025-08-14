@@ -24,45 +24,66 @@ const initialState: ThemeProviderState = {
     setTheme: () => null,
 }
 
+// making this generic instead of string because of Mode and Theme
+// check if I can do T extends string instead?
+// const safeGetValueLocalStorage = <T, >(key: string, fallback: T): T => {
+//     if (typeof window === "undefined") return fallback;
+//     try {
+//         const value = localStorage.getItem(key);
+//         return (value as T) || fallback;
+//     } catch {
+//         return fallback;
+//     }
+// };
+
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 const ThemeProvider = ({
                            children,
                            defaultMode = "system",
                            defaultTheme = "default",
                            storageKey = "vite-ui-theme",
-                           ...props
-                       }: ThemeProviderProps & { defaultMode?: Mode }) => {
-    const [mode, setMode] = useState<Mode>(
-        () => (localStorage.getItem(`${storageKey}-mode`) as Mode) || defaultMode
-    )
+                       }: ThemeProviderProps & { defaultMode?: Mode, defaultTheme?: Theme }) => {
+    // console.log(defaultTheme, defaultMode)
+    const [mode, setMode] = useState<Mode>(() => {
+        if (typeof window === "undefined") {
+            return defaultMode;
+        }
+        try {
+            const storedMode = localStorage.getItem(`${storageKey}-mode`) as Mode | null;
+            if (storedMode) {
+                return storedMode;
+            }
+            return defaultMode
+        } catch {
+            return defaultMode
+        }
+    })
 
-    const [theme, setTheme] = useState<Theme>(() => localStorage.getItem(`${storageKey}-theme`) as Theme) || defaultTheme
-
+    const [theme, setTheme] = useState<Theme>(() => {
+        if (typeof window === "undefined") {
+            return defaultTheme
+        }
+        try {
+            const storedTheme = localStorage.getItem(`${storageKey}-theme`) as Theme | null;
+            if (storedTheme) {
+                return storedTheme
+            }
+            return defaultTheme
+        } catch {
+            return defaultTheme
+        }
+    })
 
     useEffect(() => {
-        const root = window.document.documentElement
+        const root = document.documentElement;
+        const finalMode = mode === "system"
+            ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+            : mode;
 
-        root.classList.remove("light", "dark")
-        root.removeAttribute("data-theme")
-
-        if (mode === "system") {
-            const systemMode = window.matchMedia("(prefers-color-scheme: dark)")
-                .matches
-                ? "dark"
-                : "light"
-
-            root.classList.add(systemMode)
-            if (theme === "default") {
-                root.setAttribute("data-theme", "default")
-            } else {
-                root.setAttribute("data-theme", theme)
-            }
-            return
-        }
-
-        root.classList.add(mode)
-        root.setAttribute("data-theme", theme)
-    }, [mode, theme])
+        root.classList.remove("light", "dark");
+        root.classList.add(finalMode);
+        root.setAttribute("data-theme", theme);
+    }, [mode, theme]);
 
     useEffect(() => {
         localStorage.setItem(`${storageKey}-mode`, mode)
@@ -72,18 +93,12 @@ const ThemeProvider = ({
     const contextValue = {
         mode: mode,
         theme: theme,
-        setMode: (mode: Mode) => {
-            localStorage.setItem(`${storageKey}-mode`, mode)
-            setMode(mode)
-        },
-        setTheme: (theme: Theme) => {
-            localStorage.setItem(`${storageKey}-theme`, theme);
-            setTheme(theme);
-        },
+        setMode: setMode,
+        setTheme: setTheme
     }
 
     return (
-        <ThemeProviderContext.Provider {...props} value={contextValue}>
+        <ThemeProviderContext.Provider value={contextValue}>
             {children}
         </ThemeProviderContext.Provider>
     )
