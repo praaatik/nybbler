@@ -51,7 +51,6 @@ const Security = () => {
         }
     }
 
-
     return (
         <Card>
             <CardHeader>

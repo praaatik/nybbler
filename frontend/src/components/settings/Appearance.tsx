@@ -15,7 +15,7 @@ const Appearance = () => {
                 <div className="space-y-2">
                     <Label htmlFor="mode">Display Mode</Label>
                     <Select value={mode} onValueChange={setMode}>
-                        <SelectTrigger>
+                        <SelectTrigger id={"mode"} data-testid="mode-select">
                             <SelectValue placeholder="Select mode"/>
                         </SelectTrigger>
                         <SelectContent>
@@ -27,9 +27,9 @@ const Appearance = () => {
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="mode">Display Theme</Label>
+                    <Label htmlFor="theme">Display Theme</Label>
                     <Select value={theme} onValueChange={setTheme}>
-                        <SelectTrigger>
+                        <SelectTrigger id={"theme"} data-testid="theme-select">
                             <SelectValue placeholder="Select theme"/>
                         </SelectTrigger>
                         <SelectContent>
