@@ -20,7 +20,6 @@ const Security = () => {
     })
     const [passwordErrors, setPasswordErrors] = useState<string[]>([])
 
-
     const validatePasswords = () => {
         const errors: string[] = []
 
