@@ -93,11 +93,11 @@ describe('Security Component', () => {
 
     describe('Password validation', () => {
         it('keeps button disabled when new password is missing', async () => {
-            render(<Security />)
+            render(<Security/>)
 
             const currentPasswordInput = screen.getByLabelText('Current Password')
             const confirmPasswordInput = screen.getByLabelText('Confirm New Password')
-            const changePasswordButton = screen.getByRole('button', { name: 'Change Password' })
+            const changePasswordButton = screen.getByRole('button', {name: 'Change Password'})
 
             await user.type(currentPasswordInput, 'currentpass123')
             await user.type(confirmPasswordInput, 'newpass123')
@@ -106,11 +106,11 @@ describe('Security Component', () => {
         })
 
         it('keeps button disabled when current password is missing', async () => {
-            render(<Security />)
+            render(<Security/>)
 
             const newPasswordInput = screen.getByLabelText('New Password')
             const confirmPasswordInput = screen.getByLabelText('Confirm New Password')
-            const changePasswordButton = screen.getByRole('button', { name: 'Change Password' })
+            const changePasswordButton = screen.getByRole('button', {name: 'Change Password'})
 
             await user.type(newPasswordInput, 'newpass123')
             await user.type(confirmPasswordInput, 'newpass123')
@@ -119,11 +119,11 @@ describe('Security Component', () => {
         })
 
         it('keeps button disabled when confirm password is missing', async () => {
-            render(<Security />)
+            render(<Security/>)
 
             const currentPasswordInput = screen.getByLabelText('Current Password')
             const newPasswordInput = screen.getByLabelText('New Password')
-            const changePasswordButton = screen.getByRole('button', { name: 'Change Password' })
+            const changePasswordButton = screen.getByRole('button', {name: 'Change Password'})
 
             await user.type(currentPasswordInput, 'currentpass123')
             await user.type(newPasswordInput, 'newpass123')
