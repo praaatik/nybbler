@@ -2,7 +2,7 @@
 
 import NavigationBar from "./NavigationBar.tsx";
 import {useState} from "react";
-import SettingsModal from "./Settings.tsx";
+import SettingsModal from "./settings/Settings.tsx";
 
 export interface User {
     name: string
