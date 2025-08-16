@@ -2,7 +2,7 @@
 
 // ref - https://stackoverflow.com/a/65286435
 
-import {render, screen} from '@testing-library/react'
+import {act, render, screen} from '@testing-library/react'
 import {vi, beforeEach, afterEach, describe, it, expect} from 'vitest'
 import {ThemeProvider} from './theme-provider'
 import {useTheme} from "../hooks/use-theme.tsx";
@@ -117,4 +117,43 @@ describe('ThemeProvider', () => {
             expect(screen.getByTestId('current-theme')).toHaveTextContent('bubblegum')
         })
     })
+
+    describe('State Updates', () => {
+        beforeEach(() => {
+            localStorageMock.getItem.mockReturnValue(null)
+        })
+
+        it('updates mode when setMode is called', async () => {
+            render(
+                <ThemeProvider>
+                    <TestComponent/>
+                </ThemeProvider>
+            )
+
+            const setDarkButton = screen.getByTestId('set-dark')
+
+            await act(async () => {
+                setDarkButton.click()
+            })
+
+            expect(screen.getByTestId('current-mode')).toHaveTextContent('dark')
+        })
+
+        it('updates theme when setTheme is called', async () => {
+            render(
+                <ThemeProvider>
+                    <TestComponent/>
+                </ThemeProvider>
+            )
+
+            const setBubblegumButton = screen.getByTestId('set-bubblegum')
+
+            await act(async () => {
+                setBubblegumButton.click()
+            })
+
+            expect(screen.getByTestId('current-theme')).toHaveTextContent('bubblegum')
+        })
+    })
+
 })
