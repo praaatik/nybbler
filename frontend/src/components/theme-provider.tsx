@@ -41,7 +41,7 @@ const ThemeProvider = ({
                            children,
                            defaultMode = "system",
                            defaultTheme = "default",
-                           storageKey = "vite-ui-theme",
+                           storageKey = "ui-theme",
                        }: ThemeProviderProps & { defaultMode?: Mode, defaultTheme?: Theme }) => {
     // console.log(defaultTheme, defaultMode)
     const [mode, setMode] = useState<Mode>(() => {
@@ -49,7 +49,7 @@ const ThemeProvider = ({
             return defaultMode;
         }
         try {
-            const storedMode = localStorage.getItem(`${storageKey}-mode`) as Mode | null;
+            const storedMode = localStorage.getItem(`${storageKey}:mode`) as Mode | null;
             if (storedMode) {
                 return storedMode;
             }
@@ -64,7 +64,7 @@ const ThemeProvider = ({
             return defaultTheme
         }
         try {
-            const storedTheme = localStorage.getItem(`${storageKey}-theme`) as Theme | null;
+            const storedTheme = localStorage.getItem(`${storageKey}:theme`) as Theme | null;
             if (storedTheme) {
                 return storedTheme
             }
@@ -86,8 +86,8 @@ const ThemeProvider = ({
     }, [mode, theme]);
 
     useEffect(() => {
-        localStorage.setItem(`${storageKey}-mode`, mode)
-        localStorage.setItem(`${storageKey}-theme`, theme)
+        localStorage.setItem(`${storageKey}:mode`, mode)
+        localStorage.setItem(`${storageKey}:theme`, theme)
     }, [mode, storageKey, theme])
 
     const contextValue = {

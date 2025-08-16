@@ -51,7 +51,6 @@ const Security = () => {
         }
     }
 
-
     return (
         <Card>
             <CardHeader>
@@ -105,6 +104,7 @@ const Security = () => {
                             <Button
                                 type="button"
                                 variant="ghost"
+                                aria-label="Toggle password visibility"
                                 size="sm"
                                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                                 onClick={() => setShowPasswords((prev) => ({...prev, new: !prev.new}))}
@@ -145,7 +145,7 @@ const Security = () => {
                     </div>
 
                     {passwordErrors.length > 0 && (
-                        <div className="space-y-1">
+                        <div className="space-y-1" data-testid="password-errors">
                             {passwordErrors.map((error, index) => (
                                 <p key={index} className="text-sm text-destructive">
                                     {error}
