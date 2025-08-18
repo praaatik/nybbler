@@ -8,7 +8,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu"
+} from "../ui/dropdown-menu.tsx"
 import {Button} from "../ui/button.tsx";
 import {useTheme} from "../../hooks/use-theme.tsx";
 
