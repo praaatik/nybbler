@@ -107,3 +107,37 @@ h1 {
         @apply bg-background text-foreground;
     }
 }
+
+@layer utilities {
+    .shadow-2xs {
+        box-shadow: var(--shadow-2xs) !important;
+    }
+
+    .shadow-xs {
+        box-shadow: var(--shadow-xs) !important;
+    }
+
+    .shadow-sm {
+        box-shadow: var(--shadow-sm) !important;
+    }
+
+    .shadow {
+        box-shadow: var(--shadow) !important;
+    }
+
+    .shadow-md {
+        box-shadow: var(--shadow-md) !important;
+    }
+
+    .shadow-lg {
+        box-shadow: var(--shadow-lg) !important;
+    }
+
+    .shadow-xl {
+        box-shadow: var(--shadow-xl) !important;
+    }
+
+    .shadow-2xl {
+        box-shadow: var(--shadow-2xl) !important;
+    }
+}

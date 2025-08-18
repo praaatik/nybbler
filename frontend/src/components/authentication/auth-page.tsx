@@ -85,7 +85,7 @@ const AuthPage = () => {
                                             type={showPassword ? "text" : "password"}
                                             placeholder="Enter your password"
                                             {...register("password")}
-                                            className={errors.password ? "border-destructive pr-10" : "pr-10"}
+                                            // className={errors.password ? "border-destructive pr-10" : "pr-10"}
                                             disabled={isLoading}
                                         />
                                         <Button
@@ -112,7 +112,7 @@ const AuthPage = () => {
                                 <div className="flex items-center justify-between">
                                     <Button
                                         variant="link"
-                                        className="p-0 h-auto text-sm text-primary hover:text-primary/80"
+                                        className="p-0 h-auto text-sm text-primary hover:text-primary/80 cursor-pointer"
                                         type="button"
                                         disabled={isLoading}
                                     >
@@ -120,7 +120,8 @@ const AuthPage = () => {
                                     </Button>
                                 </div>
 
-                                <Button type="submit" className="w-full shadow-bubblegum-sm" disabled={isLoading}>
+                                <Button type="submit" className="w-full shadow-bubblegum-sm cursor-pointer"
+                                        disabled={isLoading}>
                                     {isLoading ? "Signing in..." : "Sign in"}
                                 </Button>
                             </form>

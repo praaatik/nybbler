@@ -1,5 +1,7 @@
 "use client"
 
+import AuthenticationThemeToggle from "./auth-theme-toggler.tsx";
+
 const AuthNavigation = () => {
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
@@ -9,6 +11,7 @@ const AuthNavigation = () => {
                         {/*TODO: check icon here as well*/}
                         <span className="text-xl font-bold text-foreground">Nybbler</span>
                     </div>
+                    <AuthenticationThemeToggle/>
                 </div>
             </div>
         </nav>
