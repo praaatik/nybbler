@@ -2,7 +2,7 @@
 
 import {useState} from "react";
 import {useForm} from "react-hook-form";
-import {type LoginFormData, loginSchema} from "../../lib/validation.ts";
+import {type SignInFormData, signInSchema} from "../../lib/validation.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Label} from "../ui/label.tsx";
 import {Input} from "../ui/input.tsx";
@@ -10,21 +10,21 @@ import {Button} from "../ui/button.tsx";
 import {Eye, EyeOff} from "lucide-react";
 
 interface SigninFormProps {
-    onSubmit: (data: LoginFormData) => void;
+    onSubmit: (data: SignInFormData) => void;
     isLoading?: boolean;
 }
 
 const SigninForm = ({onSubmit}: SigninFormProps) => {
     const [showPassword, setShowPassword] = useState(false);
-    const {handleSubmit, formState: {errors}, register} = useForm<LoginFormData>({
-        resolver: zodResolver(loginSchema),
+    const {handleSubmit, formState: {errors}, register} = useForm<SignInFormData>({
+        resolver: zodResolver(signInSchema),
         defaultValues: {
             email: "",
             password: "",
         }
     })
 
-    const onFormSubmit = async (data: LoginFormData) => {
+    const onFormSubmit = async (data: SignInFormData) => {
         // console.log(data);
         onSubmit(data);
     }

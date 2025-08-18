@@ -5,23 +5,23 @@ import {useState} from "react";
 import AuthNavigation from "./auth-navigation.tsx";
 import AuthToggle from "./auth-toggle.tsx";
 import SigninForm from "./signin-form.tsx";
-import type {LoginFormData} from "../../lib/validation.ts";
+import type {SignInFormData} from "../../lib/validation.ts";
 
 interface AuthState {
-    mode: "login" | "signup";
+    mode: "signin" | "signup";
     isLoading: boolean;
     errors: Record<string, string>
 }
 
 const AuthPage = () => {
     const [authState, setAuthState] = useState<AuthState>({
-        mode: "login",
+        mode: "signin",
         errors: {},
         isLoading: false,
     });
 
 
-    const handleModeToggle = (mode: "login" | "signup") => {
+    const handleModeToggle = (mode: "signin" | "signup") => {
         setAuthState((prev) => ({
             ...prev,
             mode,
@@ -29,7 +29,7 @@ const AuthPage = () => {
         }))
     }
 
-    const handleLogin = (data: LoginFormData) => {
+    const handleSignIn = (data: SignInFormData) => {
         console.log(data);
     }
 
@@ -41,10 +41,10 @@ const AuthPage = () => {
                 <Card className="w-full shadow-bubblegum">
                     <CardHeader className="space-y-1 text-center">
                         <CardTitle className="text-2xl font-bold">
-                            {authState.mode === "login" ? "Welcome back" : "Create account"}
+                            {authState.mode === "signin" ? "Welcome back" : "Create account"}
                         </CardTitle>
                         <CardDescription>
-                            {authState.mode === "login"
+                            {authState.mode === "signin"
                                 ? "Sign in to your Nybbler account to continue"
                                 : "Sign up to get started with Nybbler"}
                         </CardDescription>
@@ -58,8 +58,8 @@ const AuthPage = () => {
                             </div>
                         )}
 
-                        {authState.mode === "login" ? (
-                            <SigninForm onSubmit={handleLogin}/>
+                        {authState.mode === "signin" ? (
+                            <SigninForm onSubmit={handleSignIn}/>
                         ) : (
                             <div>signup</div>
                         )}
