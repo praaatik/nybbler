@@ -6,6 +6,7 @@ import AuthNavigation from "./auth-navigation.tsx";
 import AuthToggle from "./auth-toggle.tsx";
 import SigninForm from "./signin-form.tsx";
 import type {SignInFormData} from "../../lib/validation.ts";
+import SignupForm from "./signup-form.tsx";
 
 interface AuthState {
     mode: "signin" | "signup";
@@ -61,7 +62,7 @@ const AuthPage = () => {
                         {authState.mode === "signin" ? (
                             <SigninForm onSubmit={handleSignIn}/>
                         ) : (
-                            <div>signup</div>
+                            <SignupForm onSubmit={handleSignIn}/>
                         )}
                         <AuthToggle mode={authState.mode} onToggle={handleModeToggle}/>
                     </CardContent>

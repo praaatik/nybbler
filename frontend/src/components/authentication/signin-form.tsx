@@ -55,7 +55,7 @@ const SigninForm = ({onSubmit}: SigninFormProps) => {
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
                         {...register("password")}
-                        // className={errors.password ? "border-destructive pr-10" : "pr-10"}
+                        className={errors.password ? "border-destructive pr-10" : "pr-10"}
                         disabled={isLoading}
                     />
                     <Button
