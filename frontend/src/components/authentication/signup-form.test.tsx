@@ -22,17 +22,41 @@ describe("SignupForm", () => {
         expect(screen.getByRole("button", {name: /create account/i})).toBeInTheDocument()
     })
 
-    it("shows validation errors for empty fields", async () => {
-        const user = userEvent.setup()
-        render(<SignupForm onSubmit={mockSignupSubmit}/>)
+    it("disables submit button when confirmPassword is empty", async () => {
+        render(<SignupForm onSubmit={vi.fn()}/>)
 
-        await user.click(screen.getByRole("button", {name: /create account/i}))
+        const passwordInput = screen.getByLabelText(/^password$/i)
+        const submitButton = screen.getByRole("button", {name: /create account/i})
 
-        await waitFor(() => {
-            expect(screen.getByText(/invalid email/i)).toBeInTheDocument()
-            expect(screen.getByText(/password is required/i)).toBeInTheDocument()
-            expect(screen.getByText(/confirmation password is required/i)).toBeInTheDocument()
-        })
+        await userEvent.type(passwordInput, "ValidPassword1!")
+
+        expect(submitButton).toBeDisabled()
+    })
+
+    it("disables submit button when passwords do not match", async () => {
+        render(<SignupForm onSubmit={vi.fn()}/>)
+
+        const passwordInput = screen.getByLabelText(/^password$/i)
+        const confirmPasswordInput = screen.getByLabelText(/^confirm password$/i)
+        const submitButton = screen.getByRole("button", {name: /create account/i})
+
+        await userEvent.type(passwordInput, "ValidPassword1!")
+        await userEvent.type(confirmPasswordInput, "DifferentPassword1!")
+
+        expect(submitButton).toBeDisabled()
+    })
+
+    it("enables submit button when passwords match", async () => {
+        render(<SignupForm onSubmit={vi.fn()}/>)
+
+        const passwordInput = screen.getByLabelText(/^password$/i)
+        const confirmPasswordInput = screen.getByLabelText(/^confirm password$/i)
+        const submitButton = screen.getByRole("button", {name: /create account/i})
+
+        await userEvent.type(passwordInput, "ValidPassword1!")
+        await userEvent.type(confirmPasswordInput, "ValidPassword1!")
+
+        expect(submitButton).toBeEnabled()
     })
 })
 

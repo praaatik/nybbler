@@ -158,8 +158,8 @@ const SignupForm = ({onSubmit, isLoading = false}: SignupFormProps) => {
 
             <Button
                 type="submit"
-                className="w-full shadow-bubblegum-sm"
-                // disabled={isLoading || (confirmPassword && !passwordsMatch)}
+                className="w-full shadow-bubblegum-sm cursor-pointer"
+                disabled={confirmPassword === "" || !passwordsMatch}
             >
                 {isLoading ? "Creating account..." : "Create account"}
             </Button>
