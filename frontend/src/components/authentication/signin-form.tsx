@@ -9,7 +9,12 @@ import {Input} from "../ui/input.tsx";
 import {Button} from "../ui/button.tsx";
 import {Eye, EyeOff} from "lucide-react";
 
-const SigninForm = () => {
+interface SigninFormProps {
+    onSubmit: (data: LoginFormData) => void;
+    isLoading?: boolean;
+}
+
+const SigninForm = ({onSubmit}: SigninFormProps) => {
     const [showPassword, setShowPassword] = useState(false);
     const {handleSubmit, formState: {errors}, register} = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
@@ -20,7 +25,8 @@ const SigninForm = () => {
     })
 
     const onFormSubmit = async (data: LoginFormData) => {
-        console.log(data);
+        // console.log(data);
+        onSubmit(data);
     }
 
     const isLoading = false;

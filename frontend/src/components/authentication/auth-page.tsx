@@ -5,6 +5,7 @@ import {useState} from "react";
 import AuthNavigation from "./auth-navigation.tsx";
 import AuthToggle from "./auth-toggle.tsx";
 import SigninForm from "./signin-form.tsx";
+import type {LoginFormData} from "../../lib/validation.ts";
 
 interface AuthState {
     mode: "login" | "signup";
@@ -26,6 +27,10 @@ const AuthPage = () => {
             mode,
             errors: {},
         }))
+    }
+
+    const handleLogin = (data: LoginFormData) => {
+        console.log(data);
     }
 
 
@@ -54,7 +59,7 @@ const AuthPage = () => {
                         )}
 
                         {authState.mode === "login" ? (
-                            <SigninForm/>
+                            <SigninForm onSubmit={handleLogin}/>
                         ) : (
                             <div>signup</div>
                         )}
