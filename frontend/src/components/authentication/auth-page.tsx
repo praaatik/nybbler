@@ -10,6 +10,7 @@ import {Label} from "../ui/label.tsx";
 import {Input} from "../ui/input.tsx";
 import {Button} from "../ui/button.tsx";
 import {Eye, EyeOff} from "lucide-react";
+import AuthToggle from "./auth-toggle.tsx";
 
 interface AuthState {
     mode: "login" | "signup";
@@ -19,7 +20,7 @@ interface AuthState {
 
 const AuthPage = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [authState, _setAuthState] = useState<AuthState>({
+    const [authState, setAuthState] = useState<AuthState>({
         mode: "login",
         errors: {},
         isLoading: false,
@@ -33,7 +34,16 @@ const AuthPage = () => {
         }
     })
 
-    const onFormSubmit = async (_data: LoginFormData) => {
+    const handleModeToggle = (mode: "login" | "signup") => {
+        setAuthState((prev) => ({
+            ...prev,
+            mode,
+            errors: {},
+        }))
+    }
+
+    const onFormSubmit = async (data: LoginFormData) => {
+        console.log(data);
     }
 
     const isLoading = false;
@@ -128,6 +138,7 @@ const AuthPage = () => {
                         ) : (
                             <div>signup</div>
                         )}
+                        <AuthToggle mode={authState.mode} onToggle={handleModeToggle}/>
                     </CardContent>
                 </Card>
             </div>
