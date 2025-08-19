@@ -1,36 +1,35 @@
-"use client"
+"use client";
 
-import {useState} from "react";
-import {useForm} from "react-hook-form";
-import {type SignInFormData, signInSchema} from "../../lib/validation.ts";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Label} from "../ui/label.tsx";
-import {Input} from "../ui/input.tsx";
-import {Button} from "../ui/button.tsx";
-import {Eye, EyeOff} from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { type SignInFormData, signInSchema } from "../../lib/validation.ts";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Label } from "../ui/label.tsx";
+import { Input } from "../ui/input.tsx";
+import { Button } from "../ui/button.tsx";
+import { Eye, EyeOff } from "lucide-react";
 
 interface SigninFormProps {
     onSubmit: (data: SignInFormData) => void;
     isLoading?: boolean;
 }
 
-const SigninForm = ({onSubmit}: SigninFormProps) => {
+const SigninForm = ({ onSubmit }: SigninFormProps) => {
     const [showPassword, setShowPassword] = useState(false);
-    const {handleSubmit, formState: {errors}, register} = useForm<SignInFormData>({
+    const { handleSubmit, formState: { errors }, register } = useForm<SignInFormData>({
         resolver: zodResolver(signInSchema),
         defaultValues: {
             email: "",
             password: "",
-        }
-    })
+        },
+    });
 
     const onFormSubmit = async (data: SignInFormData) => {
         // console.log(data);
         onSubmit(data);
-    }
+    };
 
     const isLoading = false;
-
 
     return (
         <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
@@ -66,17 +65,22 @@ const SigninForm = ({onSubmit}: SigninFormProps) => {
                         onClick={() => setShowPassword(!showPassword)}
                         disabled={isLoading}
                     >
-                        {showPassword ? (
-                            <EyeOff className="h-4 w-4 text-muted-foreground"/>
-                        ) : (
-                            <Eye className="h-4 w-4 text-muted-foreground"/>
-                        )}
+                        {showPassword
+                            ? (
+                                    <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                )
+                            : (
+                                    <Eye className="h-4 w-4 text-muted-foreground" />
+                                )}
                         <span
-                            className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
+                            className="sr-only"
+                        >
+                            {showPassword ? "Hide password" : "Show password"}
+                        </span>
                     </Button>
                 </div>
-                {errors.password &&
-                    <p className="text-sm text-destructive">{errors.password.message}</p>}
+                {errors.password
+                    && <p className="text-sm text-destructive">{errors.password.message}</p>}
             </div>
 
             <div className="flex items-center justify-between">
@@ -90,11 +94,14 @@ const SigninForm = ({onSubmit}: SigninFormProps) => {
                 </Button>
             </div>
 
-            <Button type="submit" className="w-full shadow-bubblegum-sm cursor-pointer"
-                    disabled={isLoading}>
+            <Button
+                type="submit"
+                className="w-full shadow-bubblegum-sm cursor-pointer"
+                disabled={isLoading}
+            >
                 {isLoading ? "Signing in..." : "Sign in"}
             </Button>
         </form>
-    )
-}
-export default SigninForm
+    );
+};
+export default SigninForm;

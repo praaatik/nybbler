@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "../ui/card.tsx";
-import {useState} from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card.tsx";
+import { useState } from "react";
 import AuthNavigation from "./auth-navigation.tsx";
 import AuthToggle from "./auth-toggle.tsx";
 import SigninForm from "./signin-form.tsx";
-import type {SignInFormData} from "../../lib/validation.ts";
+import type { SignInFormData } from "../../lib/validation.ts";
 import SignupForm from "./signup-form.tsx";
 
 interface AuthState {
     mode: "signin" | "signup";
     isLoading: boolean;
-    errors: Record<string, string>
+    errors: Record<string, string>;
 }
 
 const AuthPage = () => {
@@ -21,23 +21,21 @@ const AuthPage = () => {
         isLoading: false,
     });
 
-
     const handleModeToggle = (mode: "signin" | "signup") => {
-        setAuthState((prev) => ({
+        setAuthState(prev => ({
             ...prev,
             mode,
             errors: {},
-        }))
-    }
+        }));
+    };
 
     const handleSignIn = (data: SignInFormData) => {
         console.log(data);
-    }
-
+    };
 
     return (
         <div className="min-h-screen w-full bg-background flex items-center justify-center p-4">
-            <AuthNavigation/>
+            <AuthNavigation />
             <div className="w-full max-w-md">
                 <Card className="w-full shadow-bubblegum">
                     <CardHeader className="space-y-1 text-center">
@@ -54,22 +52,25 @@ const AuthPage = () => {
                     <CardContent className="space-y-6">
                         {authState.errors.general && (
                             <div
-                                className="p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
+                                className="p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md"
+                            >
                                 {authState.errors.general}
                             </div>
                         )}
 
-                        {authState.mode === "signin" ? (
-                            <SigninForm onSubmit={handleSignIn}/>
-                        ) : (
-                            <SignupForm onSubmit={handleSignIn}/>
-                        )}
-                        <AuthToggle mode={authState.mode} onToggle={handleModeToggle}/>
+                        {authState.mode === "signin"
+                            ? (
+                                    <SigninForm onSubmit={handleSignIn} />
+                                )
+                            : (
+                                    <SignupForm onSubmit={handleSignIn} />
+                                )}
+                        <AuthToggle mode={authState.mode} onToggle={handleModeToggle} />
                     </CardContent>
                 </Card>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default AuthPage
+export default AuthPage;

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
     DropdownMenu,
@@ -6,14 +6,14 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import {Button} from "./ui/button.tsx";
-import {Avatar, AvatarFallback, AvatarImage} from "./ui/avatar.tsx";
-import {LogOut, Settings, User} from "lucide-react";
+import { Button } from "./ui/button.tsx";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar.tsx";
+import { LogOut, Settings, User } from "lucide-react";
 
 export interface User {
-    name: string
-    email: string
-    avatar: string
+    name: string;
+    email: string;
+    avatar: string;
 }
 
 interface NavigationBarProps {
@@ -22,7 +22,7 @@ interface NavigationBarProps {
     onLogout: () => void;
 }
 
-const NavigationBar = ({user, onOpenSettings, onLogout}: NavigationBarProps) => {
+const NavigationBar = ({ user, onOpenSettings, onLogout }: NavigationBarProps) => {
     return (
         <nav className="bg-background border-b border-border md:px-20 lg:px-40 px-7 py-3">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -37,14 +37,14 @@ const NavigationBar = ({user, onOpenSettings, onLogout}: NavigationBarProps) => 
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="flex items-center gap-2 px-2">
                                 <Avatar className="h-8 w-8">
-                                    <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name}/>
+                                    <AvatarImage src={user.avatar || "/placeholder.svg"} alt={user.name} />
                                     <AvatarFallback>
-                    <span className="text-muted-foreground">
-                      {user.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                    </span>
+                                        <span className="text-muted-foreground">
+                                            {user.name
+                                                .split(" ")
+                                                .map(n => n[0])
+                                                .join("")}
+                                        </span>
                                     </AvatarFallback>
                                 </Avatar>
                             </Button>
@@ -56,17 +56,17 @@ const NavigationBar = ({user, onOpenSettings, onLogout}: NavigationBarProps) => 
                             </div>
 
                             <DropdownMenuItem>
-                                <User className="h-4 w-4 mr-2"/>
+                                <User className="h-4 w-4 mr-2" />
                                 Profile
                             </DropdownMenuItem>
 
                             <DropdownMenuItem onClick={onOpenSettings}>
-                                <Settings className="h-4 w-4 mr-2"/>
+                                <Settings className="h-4 w-4 mr-2" />
                                 Settings
                             </DropdownMenuItem>
 
                             <DropdownMenuItem onClick={onLogout} className="text-destructive">
-                                <LogOut className="h-4 w-4 mr-2"/>
+                                <LogOut className="h-4 w-4 mr-2" />
                                 Sign out
                             </DropdownMenuItem>
                         </DropdownMenuContent>

@@ -1,59 +1,60 @@
-"use client"
+"use client";
 
 // ref - https://stackoverflow.com/a/65286435
 
-import {act, render, screen} from '@testing-library/react'
-import {vi, beforeEach, afterEach, describe, it, expect} from 'vitest'
-import {ThemeProvider} from './theme-provider'
-import {useTheme} from "../hooks/use-theme.tsx";
+import { act, render, screen } from "@testing-library/react";
+import { vi, beforeEach, afterEach, describe, it, expect } from "vitest";
+import { ThemeProvider } from "./theme-provider";
+import { useTheme } from "../hooks/use-theme.tsx";
 
 const localStorageMock = {
     getItem: vi.fn(),
     setItem: vi.fn(),
     removeItem: vi.fn(),
     clear: vi.fn(),
-}
+};
 
-const createMatchMediaMock = (matches: boolean = false) => vi.fn().mockImplementation((query) => ({
+const createMatchMediaMock = (matches: boolean = false) => vi.fn().mockImplementation(query => ({
     matches,
     media: query,
     onchange: null,
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
-}))
+}));
 
 const TestComponent = () => {
-    const {mode, theme, setMode, setTheme} = useTheme()
+    const { mode, theme, setMode, setTheme } = useTheme();
     return (
         <div>
             <span data-testid="current-mode">{mode}</span>
             <span data-testid="current-theme">{theme}</span>
-            <button onClick={() => setMode('dark')} data-testid="set-dark">Set Dark</button>
-            <button onClick={() => setTheme('bubblegum')} data-testid="set-bubblegum">Set Bubblegum</button>
+            <button onClick={() => setMode("dark")} data-testid="set-dark">Set Dark</button>
+            <button onClick={() => setTheme("bubblegum")} data-testid="set-bubblegum">Set Bubblegum</button>
         </div>
-    )
-}
+    );
+};
 
-describe('ThemeProvider', () => {
-    let mockDocumentElement: any
+describe("ThemeProvider", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let mockDocumentElement: any;
 
     beforeEach(() => {
-        vi.clearAllMocks()
+        vi.clearAllMocks();
 
-        Object.defineProperty(global, 'localStorage', {
+        Object.defineProperty(global, "localStorage", {
             value: localStorageMock,
             configurable: true,
-        })
+        });
 
-        Object.defineProperty(global, 'window', {
+        Object.defineProperty(global, "window", {
             value: {
                 ...global.window,
                 localStorage: localStorageMock,
                 matchMedia: createMatchMediaMock(false),
             },
             configurable: true,
-        })
+        });
 
         mockDocumentElement = {
             classList: {
@@ -61,99 +62,98 @@ describe('ThemeProvider', () => {
                 add: vi.fn(),
             },
             setAttribute: vi.fn(),
-        }
+        };
 
-        Object.defineProperty(document, 'documentElement', {
+        Object.defineProperty(document, "documentElement", {
             value: mockDocumentElement,
             configurable: true,
-        })
-    })
+        });
+    });
 
     afterEach(() => {
-        vi.restoreAllMocks()
-    })
+        vi.restoreAllMocks();
+    });
 
-    describe('Initial State', () => {
-        it('uses default values when no localStorage values exist on first load', () => {
-            localStorageMock.getItem.mockReturnValue(null)
+    describe("Initial State", () => {
+        it("uses default values when no localStorage values exist on first load", () => {
+            localStorageMock.getItem.mockReturnValue(null);
 
             render(
                 <ThemeProvider>
-                    <TestComponent/>
-                </ThemeProvider>
-            )
+                    <TestComponent />
+                </ThemeProvider>,
+            );
 
-            expect(screen.getByTestId('current-mode')).toHaveTextContent('system')
-            expect(screen.getByTestId('current-theme')).toHaveTextContent('default')
-        })
+            expect(screen.getByTestId("current-mode")).toHaveTextContent("system");
+            expect(screen.getByTestId("current-theme")).toHaveTextContent("default");
+        });
 
-        it('uses provided default values', () => {
-            localStorageMock.getItem.mockReturnValue(null)
+        it("uses provided default values", () => {
+            localStorageMock.getItem.mockReturnValue(null);
 
             render(
                 <ThemeProvider defaultMode="dark" defaultTheme="bubblegum">
-                    <TestComponent/>
-                </ThemeProvider>
-            )
+                    <TestComponent />
+                </ThemeProvider>,
+            );
 
-            expect(screen.getByTestId('current-mode')).toHaveTextContent('dark')
-            expect(screen.getByTestId('current-theme')).toHaveTextContent('bubblegum')
-        })
+            expect(screen.getByTestId("current-mode")).toHaveTextContent("dark");
+            expect(screen.getByTestId("current-theme")).toHaveTextContent("bubblegum");
+        });
 
-        it('loads values from localStorage when available', () => {
+        it("loads values from localStorage when available", () => {
             localStorageMock.getItem.mockImplementation((key) => {
-                if (key === 'ui-theme:mode') return 'dark'
-                if (key === 'ui-theme:theme') return 'bubblegum'
-                return null
-            })
+                if (key === "ui-theme:mode") return "dark";
+                if (key === "ui-theme:theme") return "bubblegum";
+                return null;
+            });
 
             render(
                 <ThemeProvider>
-                    <TestComponent/>
-                </ThemeProvider>
-            )
+                    <TestComponent />
+                </ThemeProvider>,
+            );
 
-            expect(screen.getByTestId('current-mode')).toHaveTextContent('dark')
-            expect(screen.getByTestId('current-theme')).toHaveTextContent('bubblegum')
-        })
-    })
+            expect(screen.getByTestId("current-mode")).toHaveTextContent("dark");
+            expect(screen.getByTestId("current-theme")).toHaveTextContent("bubblegum");
+        });
+    });
 
-    describe('State Updates', () => {
+    describe("State Updates", () => {
         beforeEach(() => {
-            localStorageMock.getItem.mockReturnValue(null)
-        })
+            localStorageMock.getItem.mockReturnValue(null);
+        });
 
-        it('updates mode when setMode is called', async () => {
+        it("updates mode when setMode is called", async () => {
             render(
                 <ThemeProvider>
-                    <TestComponent/>
-                </ThemeProvider>
-            )
+                    <TestComponent />
+                </ThemeProvider>,
+            );
 
-            const setDarkButton = screen.getByTestId('set-dark')
+            const setDarkButton = screen.getByTestId("set-dark");
 
             await act(async () => {
-                setDarkButton.click()
-            })
+                setDarkButton.click();
+            });
 
-            expect(screen.getByTestId('current-mode')).toHaveTextContent('dark')
-        })
+            expect(screen.getByTestId("current-mode")).toHaveTextContent("dark");
+        });
 
-        it('updates theme when setTheme is called', async () => {
+        it("updates theme when setTheme is called", async () => {
             render(
                 <ThemeProvider>
-                    <TestComponent/>
-                </ThemeProvider>
-            )
+                    <TestComponent />
+                </ThemeProvider>,
+            );
 
-            const setBubblegumButton = screen.getByTestId('set-bubblegum')
+            const setBubblegumButton = screen.getByTestId("set-bubblegum");
 
             await act(async () => {
-                setBubblegumButton.click()
-            })
+                setBubblegumButton.click();
+            });
 
-            expect(screen.getByTestId('current-theme')).toHaveTextContent('bubblegum')
-        })
-    })
-
-})
+            expect(screen.getByTestId("current-theme")).toHaveTextContent("bubblegum");
+        });
+    });
+});

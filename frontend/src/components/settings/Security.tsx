@@ -1,55 +1,56 @@
-"use client"
+"use client";
 
-import {Button} from "../ui/button.tsx";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "../ui/card.tsx";
-import {Label} from "../ui/label.tsx";
-import {Input} from "../ui/input.tsx";
-import {Eye, EyeOff} from "lucide-react";
-import {useState} from "react";
+import { Button } from "../ui/button.tsx";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card.tsx";
+import { Label } from "../ui/label.tsx";
+import { Input } from "../ui/input.tsx";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 const Security = () => {
     const [passwordData, setPasswordData] = useState({
         currentPassword: "",
         newPassword: "",
         confirmPassword: "",
-    })
+    });
     const [showPasswords, setShowPasswords] = useState({
         current: false,
         new: false,
         confirm: false,
-    })
-    const [passwordErrors, setPasswordErrors] = useState<string[]>([])
+    });
+    const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
 
     const validatePasswords = () => {
-        const errors: string[] = []
+        const errors: string[] = [];
 
         if (!passwordData.currentPassword) {
-            errors.push("Current password is required")
+            errors.push("Current password is required");
         }
 
         if (!passwordData.newPassword) {
-            errors.push("New password is required")
-        } else if (passwordData.newPassword.length < 8) {
-            errors.push("New password must be at least 8 characters")
+            errors.push("New password is required");
+        }
+        else if (passwordData.newPassword.length < 8) {
+            errors.push("New password must be at least 8 characters");
         }
 
         if (passwordData.newPassword !== passwordData.confirmPassword) {
-            errors.push("New passwords do not match")
+            errors.push("New passwords do not match");
         }
 
         if (passwordData.currentPassword === passwordData.newPassword) {
-            errors.push("New password must be different from current password")
+            errors.push("New password must be different from current password");
         }
 
-        setPasswordErrors(errors)
-        return errors.length === 0
-    }
+        setPasswordErrors(errors);
+        return errors.length === 0;
+    };
 
     const handlePasswordChange = () => {
         if (validatePasswords()) {
             // TODO: handle password change here
         }
-    }
+    };
 
     return (
         <Card>
@@ -66,9 +67,9 @@ const Security = () => {
                                 id="currentPassword"
                                 type={showPasswords.current ? "text" : "password"}
                                 value={passwordData.currentPassword}
-                                onChange={(e) => setPasswordData((prev) => ({
+                                onChange={e => setPasswordData(prev => ({
                                     ...prev,
-                                    currentPassword: e.target.value
+                                    currentPassword: e.target.value,
                                 }))}
                                 placeholder="Enter your current password"
                             />
@@ -77,13 +78,14 @@ const Security = () => {
                                 variant="ghost"
                                 size="sm"
                                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                                onClick={() => setShowPasswords((prev) => ({
+                                onClick={() => setShowPasswords(prev => ({
                                     ...prev,
-                                    current: !prev.current
+                                    current: !prev.current,
                                 }))}
                             >
-                                {showPasswords.current ? <EyeOff className="h-4 w-4"/> :
-                                    <Eye className="h-4 w-4"/>}
+                                {showPasswords.current
+                                    ? <EyeOff className="h-4 w-4" />
+                                    : <Eye className="h-4 w-4" />}
                             </Button>
                         </div>
                     </div>
@@ -95,9 +97,9 @@ const Security = () => {
                                 id="newPassword"
                                 type={showPasswords.new ? "text" : "password"}
                                 value={passwordData.newPassword}
-                                onChange={(e) => setPasswordData((prev) => ({
+                                onChange={e => setPasswordData(prev => ({
                                     ...prev,
-                                    newPassword: e.target.value
+                                    newPassword: e.target.value,
                                 }))}
                                 placeholder="Enter your new password"
                             />
@@ -107,10 +109,11 @@ const Security = () => {
                                 aria-label="Toggle password visibility"
                                 size="sm"
                                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                                onClick={() => setShowPasswords((prev) => ({...prev, new: !prev.new}))}
+                                onClick={() => setShowPasswords(prev => ({ ...prev, new: !prev.new }))}
                             >
-                                {showPasswords.new ? <EyeOff className="h-4 w-4"/> :
-                                    <Eye className="h-4 w-4"/>}
+                                {showPasswords.new
+                                    ? <EyeOff className="h-4 w-4" />
+                                    : <Eye className="h-4 w-4" />}
                             </Button>
                         </div>
                     </div>
@@ -122,9 +125,9 @@ const Security = () => {
                                 id="confirmPassword"
                                 type={showPasswords.confirm ? "text" : "password"}
                                 value={passwordData.confirmPassword}
-                                onChange={(e) => setPasswordData((prev) => ({
+                                onChange={e => setPasswordData(prev => ({
                                     ...prev,
-                                    confirmPassword: e.target.value
+                                    confirmPassword: e.target.value,
                                 }))}
                                 placeholder="Confirm your new password"
                             />
@@ -133,13 +136,14 @@ const Security = () => {
                                 variant="ghost"
                                 size="sm"
                                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                                onClick={() => setShowPasswords((prev) => ({
+                                onClick={() => setShowPasswords(prev => ({
                                     ...prev,
-                                    confirm: !prev.confirm
+                                    confirm: !prev.confirm,
                                 }))}
                             >
-                                {showPasswords.confirm ? <EyeOff className="h-4 w-4"/> :
-                                    <Eye className="h-4 w-4"/>}
+                                {showPasswords.confirm
+                                    ? <EyeOff className="h-4 w-4" />
+                                    : <Eye className="h-4 w-4" />}
                             </Button>
                         </div>
                     </div>
@@ -165,7 +169,7 @@ const Security = () => {
             </CardContent>
         </Card>
 
-    )
-}
+    );
+};
 
-export default Security
+export default Security;

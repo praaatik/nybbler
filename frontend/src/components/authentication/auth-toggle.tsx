@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import {Button} from "../ui/button"
+import { Button } from "../ui/button";
 
 interface AuthToggleProps {
-    mode: "signin" | "signup"
-    onToggle: (mode: "signin" | "signup") => void
+    mode: "signin" | "signup";
+    onToggle: (mode: "signin" | "signup") => void;
 }
 
-const AuthToggle = ({mode, onToggle}: AuthToggleProps) => {
+const AuthToggle = ({ mode, onToggle }: AuthToggleProps) => {
     return (
         <div className="text-center">
             <p className="text-sm text-muted-foreground">
@@ -21,7 +21,7 @@ const AuthToggle = ({mode, onToggle}: AuthToggleProps) => {
                 {mode === "signin" ? "Sign up" : "Sign in"}
             </Button>
         </div>
-    )
-}
+    );
+};
 
 export default AuthToggle;

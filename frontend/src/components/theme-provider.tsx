@@ -1,28 +1,28 @@
-import {createContext, useEffect, useState} from "react"
+import { createContext, useEffect, useState } from "react";
 
-type Mode = "dark" | "light" | "system"
-type Theme = "bubblegum" | "default"
+type Mode = "dark" | "light" | "system";
+type Theme = "bubblegum" | "default";
 
 type ThemeProviderProps = {
-    children: React.ReactNode
-    defaultMode?: Mode
-    defaultTheme?: Theme
-    storageKey?: string
-}
+    children: React.ReactNode;
+    defaultMode?: Mode;
+    defaultTheme?: Theme;
+    storageKey?: string;
+};
 
 type ThemeProviderState = {
-    mode: Mode
-    theme: Theme
-    setMode: (mode: Mode) => void
-    setTheme: (theme: Theme) => void
-}
+    mode: Mode;
+    theme: Theme;
+    setMode: (mode: Mode) => void;
+    setTheme: (theme: Theme) => void;
+};
 
 const initialState: ThemeProviderState = {
     mode: "system",
     theme: "default",
     setMode: () => null,
     setTheme: () => null,
-}
+};
 
 // making this generic instead of string because of Mode and Theme
 // check if I can do T extends string instead?
@@ -36,13 +36,13 @@ const initialState: ThemeProviderState = {
 //     }
 // };
 
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 const ThemeProvider = ({
-                           children,
-                           defaultMode = "system",
-                           defaultTheme = "default",
-                           storageKey = "ui-theme",
-                       }: ThemeProviderProps & { defaultMode?: Mode, defaultTheme?: Theme }) => {
+    children,
+    defaultMode = "system",
+    defaultTheme = "default",
+    storageKey = "ui-theme",
+}: ThemeProviderProps & { defaultMode?: Mode; defaultTheme?: Theme }) => {
     // console.log(defaultTheme, defaultMode)
     const [mode, setMode] = useState<Mode>(() => {
         if (typeof window === "undefined") {
@@ -53,26 +53,28 @@ const ThemeProvider = ({
             if (storedMode) {
                 return storedMode;
             }
-            return defaultMode
-        } catch {
-            return defaultMode
+            return defaultMode;
         }
-    })
+        catch {
+            return defaultMode;
+        }
+    });
 
     const [theme, setTheme] = useState<Theme>(() => {
         if (typeof window === "undefined") {
-            return defaultTheme
+            return defaultTheme;
         }
         try {
             const storedTheme = localStorage.getItem(`${storageKey}:theme`) as Theme | null;
             if (storedTheme) {
-                return storedTheme
+                return storedTheme;
             }
-            return defaultTheme
-        } catch {
-            return defaultTheme
+            return defaultTheme;
         }
-    })
+        catch {
+            return defaultTheme;
+        }
+    });
 
     useEffect(() => {
         const root = document.documentElement;
@@ -86,23 +88,22 @@ const ThemeProvider = ({
     }, [mode, theme]);
 
     useEffect(() => {
-        localStorage.setItem(`${storageKey}:mode`, mode)
-        localStorage.setItem(`${storageKey}:theme`, theme)
-    }, [mode, storageKey, theme])
+        localStorage.setItem(`${storageKey}:mode`, mode);
+        localStorage.setItem(`${storageKey}:theme`, theme);
+    }, [mode, storageKey, theme]);
 
     const contextValue = {
         mode: mode,
         theme: theme,
         setMode: setMode,
-        setTheme: setTheme
-    }
+        setTheme: setTheme,
+    };
 
     return (
         <ThemeProviderContext.Provider value={contextValue}>
             {children}
         </ThemeProviderContext.Provider>
-    )
-}
+    );
+};
 
-
-export {ThemeProvider, ThemeProviderContext, type Mode};
+export { ThemeProvider, ThemeProviderContext, type Mode };

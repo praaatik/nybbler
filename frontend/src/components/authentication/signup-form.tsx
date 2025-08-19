@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
-import {useState} from "react"
-import {useForm} from "react-hook-form"
-import {zodResolver} from "@hookform/resolvers/zod"
-import {Eye, EyeOff, Check, X} from "lucide-react"
-import {type SignUpFormData, signUpSchema} from "../../lib/validation.ts";
-import {Label} from "../ui/label.tsx";
-import {Input} from "../ui/input.tsx";
-import {Button} from "../ui/button.tsx";
-import {getPasswordStrength} from "../../lib/password.ts";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff, Check, X } from "lucide-react";
+import { type SignUpFormData, signUpSchema } from "../../lib/validation.ts";
+import { Label } from "../ui/label.tsx";
+import { Input } from "../ui/input.tsx";
+import { Button } from "../ui/button.tsx";
+import { getPasswordStrength } from "../../lib/password.ts";
 
 interface SignupFormProps {
-    onSubmit: (data: SignUpFormData) => void
-    isLoading?: boolean
+    onSubmit: (data: SignUpFormData) => void;
+    isLoading?: boolean;
 }
 
-const SignupForm = ({onSubmit, isLoading = false}: SignupFormProps) => {
-    const [showPassword, setShowPassword] = useState(false)
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+const SignupForm = ({ onSubmit, isLoading = false }: SignupFormProps) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const {
         register,
         handleSubmit,
-        formState: {errors},
+        formState: { errors },
         watch,
     } = useForm<SignUpFormData>({
         resolver: zodResolver(signUpSchema),
@@ -31,17 +31,17 @@ const SignupForm = ({onSubmit, isLoading = false}: SignupFormProps) => {
             password: "",
             confirmPassword: "",
         },
-    })
+    });
 
-    const password = watch("password")
-    const confirmPassword = watch("confirmPassword")
+    const password = watch("password");
+    const confirmPassword = watch("confirmPassword");
 
-    const {checks, score, label} = getPasswordStrength(password || "")
-    const passwordsMatch = password === confirmPassword && confirmPassword !== ""
+    const { checks, score, label } = getPasswordStrength(password || "");
+    const passwordsMatch = password === confirmPassword && confirmPassword !== "";
 
     const onFormSubmit = async (data: SignUpFormData) => {
-        await onSubmit(data)
-    }
+        await onSubmit(data);
+    };
 
     return (
         <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 mt-auto">
@@ -77,11 +77,13 @@ const SignupForm = ({onSubmit, isLoading = false}: SignupFormProps) => {
                         onClick={() => setShowPassword(!showPassword)}
                         disabled={isLoading}
                     >
-                        {showPassword ? (
-                            <EyeOff className="h-4 w-4 text-muted-foreground"/>
-                        ) : (
-                            <Eye className="h-4 w-4 text-muted-foreground"/>
-                        )}
+                        {showPassword
+                            ? (
+                                    <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                )
+                            : (
+                                    <Eye className="h-4 w-4 text-muted-foreground" />
+                                )}
                         <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
                     </Button>
                 </div>
@@ -105,11 +107,13 @@ const SignupForm = ({onSubmit, isLoading = false}: SignupFormProps) => {
                                 "Special character": checks.symbol,
                             }).map(([label, valid]) => (
                                 <div key={label} className="flex items-center gap-1">
-                                    {valid ? (
-                                        <Check className="h-3 w-3 text-green-500"/>
-                                    ) : (
-                                        <X className="h-3 w-3 text-muted-foreground"/>
-                                    )}
+                                    {valid
+                                        ? (
+                                                <Check className="h-3 w-3 text-green-500" />
+                                            )
+                                        : (
+                                                <X className="h-3 w-3 text-muted-foreground" />
+                                            )}
                                     <span className={valid ? "text-green-600" : "text-muted-foreground"}>{label}</span>
                                 </div>
                             ))}
@@ -141,17 +145,19 @@ const SignupForm = ({onSubmit, isLoading = false}: SignupFormProps) => {
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         disabled={isLoading}
                     >
-                        {showConfirmPassword ? (
-                            <EyeOff className="h-4 w-4 text-muted-foreground"/>
-                        ) : (
-                            <Eye className="h-4 w-4 text-muted-foreground"/>
-                        )}
+                        {showConfirmPassword
+                            ? (
+                                    <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                )
+                            : (
+                                    <Eye className="h-4 w-4 text-muted-foreground" />
+                                )}
                         <span className="sr-only">{showConfirmPassword ? "Hide password" : "Show password"}</span>
                     </Button>
                 </div>
 
-                {confirmPassword && !passwordsMatch &&
-                    <p className="text-sm text-destructive">Passwords do not match</p>}
+                {confirmPassword && !passwordsMatch
+                    && <p className="text-sm text-destructive">Passwords do not match</p>}
 
                 {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>}
             </div>
@@ -164,7 +170,7 @@ const SignupForm = ({onSubmit, isLoading = false}: SignupFormProps) => {
                 {isLoading ? "Creating account..." : "Create account"}
             </Button>
         </form>
-    )
-}
+    );
+};
 
-export default SignupForm
+export default SignupForm;

@@ -1,33 +1,33 @@
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 import "jsdom-testing-mocks";
-import {vi} from "vitest";
+import { vi } from "vitest";
 
-Object.defineProperty(Element.prototype, 'hasPointerCapture', {
+Object.defineProperty(Element.prototype, "hasPointerCapture", {
     value: () => false,
     writable: true,
 });
 
-Object.defineProperty(Element.prototype, 'releasePointerCapture', {
+Object.defineProperty(Element.prototype, "releasePointerCapture", {
     value: () => {
     },
     writable: true,
 });
 
-Object.defineProperty(Element.prototype, 'setPointerCapture', {
+Object.defineProperty(Element.prototype, "setPointerCapture", {
     value: () => {
     },
     writable: true,
 });
 
-Object.defineProperty(Element.prototype, 'scrollIntoView', {
+Object.defineProperty(Element.prototype, "scrollIntoView", {
     value: () => {
     },
     writable: true,
 });
 
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
     writable: true,
-    value: vi.fn().mockImplementation((query) => ({
+    value: vi.fn().mockImplementation(query => ({
         matches: false,
         media: query,
         onchange: null,
@@ -42,4 +42,4 @@ Object.defineProperty(window, 'matchMedia', {
 global.console = {
     ...console,
     error: vi.fn(),
-}
+};

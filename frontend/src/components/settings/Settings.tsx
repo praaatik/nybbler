@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
     Dialog,
@@ -7,16 +7,16 @@ import {
     DialogHeader,
     DialogTitle,
 } from "../ui/dialog.tsx";
-import {Separator} from "@radix-ui/react-select";
+import { Separator } from "@radix-ui/react-select";
 import Security from "./Security.tsx";
 import Appearance from "./Appearance.tsx";
 
 interface SettingsModalProps {
-    open: boolean
-    onOpenChange: (open: boolean) => void
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
 }
 
-const SettingsModal = ({open, onOpenChange}: SettingsModalProps) => {
+const SettingsModal = ({ open, onOpenChange }: SettingsModalProps) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-auto">
@@ -26,13 +26,13 @@ const SettingsModal = ({open, onOpenChange}: SettingsModalProps) => {
                 </DialogHeader>
 
                 <div className="flex-1 overflow-y-auto space-y-6 py-4">
-                    <Appearance/>
-                    <Separator/>
-                    <Security/>
+                    <Appearance />
+                    <Separator />
+                    <Security />
                 </div>
             </DialogContent>
         </Dialog>
-    )
-}
+    );
+};
 
-export default SettingsModal
+export default SettingsModal;
